@@ -1,4 +1,4 @@
-# /usr/local/bin/io
+#! /usr/local/bin/io
 
 # 既存の除算をバックアップ
 Number _originalDiv := Number getSlot("/")
