@@ -29,4 +29,16 @@ TwoDimList get := method(x, y,
   call target at(x) at(y)
 )
 
+TwoDimList transpose := method(
+  newYsize := call target size;
+  newXsize := call target at(0) size;
+  transposedMatrix := TwoDimList clone;
+  transposedMatrix dim(newXsize, newYsize);
+  for(i, 0, newXsize - 1,
+    for(j, 0, newYsize - 1,
+      transposedMatrix set(i, j, call target get(j, i))
+    )
+  )
+  transposedMatrix
+)
 
