@@ -1,6 +1,10 @@
 #! /usr/local/bin/io
 
+// 二次元リスト
+
 TwoDimList := List clone
+
+// 領域割り当て
 
 TwoDimList dim := method(x, y, 
   i := 0;
@@ -17,6 +21,8 @@ TwoDimList dim := method(x, y,
   call target
 )
 
+// 値設定
+
 TwoDimList set := method(x, y, value,
   line := call target at(x);
   line append(value);
@@ -25,9 +31,13 @@ TwoDimList set := method(x, y, value,
   call target
 )
 
+// 値取得
+
 TwoDimList get := method(x, y,
   call target at(x) at(y)
 )
+
+// 転置
 
 TwoDimList transpose := method(
   newYsize := call target size;
@@ -40,5 +50,48 @@ TwoDimList transpose := method(
     )
   )
   transposedMatrix
+)
+
+// ファイルへの書き出し
+// ToDo 例外処理
+
+TwoDimList writeToFile := method( aPath,
+  file := File with( aPath );
+  if ( file exists, file remove );
+  file openForUpdating;
+  call target foreach( x,
+    x foreach( y,
+      file write(y asString, " ")
+    );
+    file setPosition( (file position) -1 )
+    file write("\n")
+  );
+  file close
+)
+
+// ファイルからの読み込み
+// ToDo 例外処理・フォーマット不正の検出
+
+TwoDimList readFromFile := method( aPath,
+  readList := TwoDimList clone;
+  file := File with( aPath ) openForReading;
+  while( (line := file readLine) != nil,
+    readList append( line asString split map(value, value asNumber) )
+  );
+  file close;
+  readList
+)
+
+// サンプル
+
+x := 3
+y := 2
+
+twoDimList := TwoDimList clone
+twoDimList dim(x, y)
+for( i, 0, x -1, 
+  for( j, 0, y -1,
+    twoDimList set( i, j, i *10 + j )
+  )
 )
 
