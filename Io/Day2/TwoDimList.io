@@ -56,16 +56,16 @@ TwoDimList transpose := method(
 // ToDo 例外処理
 
 TwoDimList writeToFile := method( aPath,
-  file := File with( aPath );
-  if ( file exists, file remove );
-  file openForUpdating;
+  file := File with( aPath )
+  if ( file exists, file remove )
+  file openForUpdating
   call target foreach( x,
     x foreach( y,
       file write(y asString, " ")
-    );
+    )
     file setPosition( (file position) -1 )
     file write("\n")
-  );
+  )
   file close
 )
 
@@ -73,12 +73,12 @@ TwoDimList writeToFile := method( aPath,
 // ToDo 例外処理・フォーマット不正の検出
 
 TwoDimList readFromFile := method( aPath,
-  readList := TwoDimList clone;
-  file := File with( aPath ) openForReading;
+  readList := TwoDimList clone
+  file := File with( aPath ) openForReading
   while( (line := file readLine) != nil,
-    readList append( line asString split map(value, value asNumber) )
-  );
-  file close;
+    readList append( line split map(value, value asNumber) )
+  )
+  file close
   readList
 )
 
